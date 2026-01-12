@@ -10,7 +10,7 @@ def cargar_empleados():
         df = pd.read_csv(RUTA_FICHERO, sep=";", encoding="utf-8")
         return df
     except FileNotFoundError:
-        # Crear DataFrame vacío con columnas
+        # Crear DataFrame vacío con columnas holaaaa
         return pd.DataFrame(columns=["id", "nombre", "edad", "puesto"])
 
 
