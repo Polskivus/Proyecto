@@ -1,62 +1,43 @@
+from piezasdb import (
+    crear_tabla,
+    cargar_csv_a_db,
+    insertar_piezas,
+    mostrar_piezas
+)
 
-opcion = 0
-vuelta = 0
+def menu():
+    crear_tabla()
+    cargar_csv_a_db()
 
-while opcion != 4:
+    while True:
+        print("\n******** MENU PRINCIPAL ********")
+        print("1. Ver piezas")
+        print("2. Añadir pieza")
+        print("3. Trabajadores")
+        print("4. Salir")
 
-    if vuelta == 0:
-        print("**************************************")
-        print("Bienvenido al menu principal\n")
-        print("Teclea la opcion para acceder:\n"
-        "1. Piezas"
-        "\n2. Pedidos"
-        "\n3. Trabajadores"
-        "\n4. Salir")
-
-        vuelta += 1
-
-        opcion = int(input("\nInsertar tu opcion: "))
+        opcion = input("Selecciona una opción: ")
 
         match opcion:
-            
-            case 1:
-                pass
+            case "1":
+                df = mostrar_piezas()
+                print(df)
 
-            case 2:
-                pass
+            case "2":
+                nombre = input("Nombre de la pieza: ")
+                qty = int(input("Cantidad: "))
+                insertar_piezas(nombre, qty)
+                print("Pieza añadida correctamente")
 
-            case 3:
-                pass
+            case "3":
+                print("Módulo trabajadores (pendiente)")
 
-            case 4:
-                print("**************************************")
-                print("************Hasta pronto**************")
-                print("**************************************")
-                
-    
-    else:
-        print("**************************************")
-        print("Elija otra opcion\n")
-        print("Teclea la opcion para acceder:\n"
-        "1. Piezas"
-        "\n2. Pedidos"
-        "\n3. Trabajadores"
-        "\n4. Salir")
+            case "4":
+                print("Hasta pronto")
+                break
 
-        opcion = int(input("\nInsertar tu opcion: "))
-        
-        match opcion:
-            
-            case 1:
-                pass
+            case _:
+                print("Opción no válida")
 
-            case 2:
-                pass
-
-            case 3:
-                pass
-
-            case 4:
-                print("**************************************")
-                print("************Hasta pronto**************")
-                print("**************************************")
+if __name__ == "__main__":
+    menu()
