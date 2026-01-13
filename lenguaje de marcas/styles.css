@@ -1,0 +1,103 @@
+body {
+  background: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.scene {
+  position: relative;
+  width: 800px;
+  height: 150px;
+  border-bottom: 2px solid #555;
+  overflow: hidden;
+}
+
+.part {
+  position: absolute;
+  bottom: -10px;
+  width: 60px;
+  height: 30px;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  color: #000;
+  font-weight: bold;
+  animation: move 3s linear forwards;
+}
+
+.motor {
+  background: #ffcc00;
+  animation-delay: 0s;
+}
+.rueda1 {
+  background: #00d9ff;
+  animation-delay: 0.4s;
+}
+.rueda2 {
+  background: #00d9ff;
+  animation-delay: 0.8s;
+}
+.puerta {
+  background: #ff6b6b;
+  animation-delay: 1.2s;
+}
+.techo {
+  background: #9b59b6;
+  animation-delay: 1.6s;
+}
+
+@keyframes move {
+  0% {
+    left: -80px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    left: 520px;
+    opacity: 1;
+  }
+}
+
+.wall {
+  position: absolute;
+  bottom: -2px;
+  left: 580px;
+  width: 20px;
+  height: 80px;
+  background: orange;
+}
+
+
+.explosion {
+  position: absolute;
+  bottom: -15px;
+  width: 70px;
+  height: 70px;
+  border-radius: 90%;
+  background: rgb(255, 0, 0);
+  transform: scale(0);
+  opacity: 0;
+  left: 520px;
+}
+
+.explosion.active {
+  animation: simpleBoom 0.5s linear forwards;
+}
+
+@keyframes simpleBoom {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
