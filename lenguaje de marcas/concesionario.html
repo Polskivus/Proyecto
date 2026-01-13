@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Coche en Canvas</title>
+    <style>
+        /*fondo de la pagina*/
+        body {
+        background: #9e9d9d;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding-top: 10px;
+        gap: 10px;
+        }
+        canvas {
+        background: #189dd1; /* cielo */
+        }
+        .panel {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        }
+        .panel > div {
+        background: #3d423e;
+        padding: 5px 10px;
+        border-radius: 4px;
+        }
+
+        /* Botón para volver al index */
+        .btn-index {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          padding: 10px 18px;
+          background-color: #61dafb;
+          color: #000;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+        }
+        .btn-index:hover {
+          background-color: #21a1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div>
+        <label>Aleron:
+            <select id="aleronSelect">
+            <option value="none">Ninguno</option>
+            <option value="normal" >Normal</option>
+            <option value="big">Grande</option>
+            </select>
+        </label>
+        </div>
+        <div>
+        <label>Ruedas:
+            <select id="ruedaSelect">
+            <option value="basic" >Basica</option>
+            <option value="sport">Deportiva</option>
+            </select>
+        </label>
+        </div>
+        <div>
+        <label>Color coche:
+            <input type="color" id="colorCoche" value="#ff0000">
+        </label>
+        </div>
+        <div>
+        <label>Color ventanas:
+            <input type="color" id="colorVentanas" value="#3d423e">
+        </label>
+        </div>
+    </div>
+
+    <canvas id="cocheCanvas" width="800" height="400"></canvas>
+
+    <!-- Botón para volver al index -->
+    <button class="btn-index" onclick="location.href='index.html'">
+      Volver al inicio
+    </button>
+
+    <script>
+        const canvas = document.getElementById("cocheCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const aleronSelect   = document.getElementById("aleronSelect");
+        const ruedaSelect    = document.getElementById("ruedaSelect");
+        const colorCoche     = document.getElementById("colorCoche");
+        const colorVentanas  = document.getElementById("colorVentanas");
+
+        function ruedaBasica(x, y, rExterior, rInterior) {
+        // rueda exterior
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(x, y, rExterior, 0, Math.PI * 2);
+        ctx.fill();
+
+        // llanta
+        ctx.fillStyle = "#c0c0c0";
+        ctx.beginPath();
+        ctx.arc(x, y, rInterior, 0, Math.PI * 2);
+        ctx.fill();
+
+        // radios sencillos
+        ctx.strokeStyle = "#808080";
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 6; i++) {
+            const angle = (Math.PI * 2 / 6) * i;
+            const x2 = x + rInterior * Math.cos(angle);
+            const y2 = y + rInterior * Math.sin(angle);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+        }
+
+        function ruedaDeportiva(x, y, rExterior, rInterior) {
+        // neumático
+        ctx.fillStyle = "#111111";
+        ctx.beginPath();
+        ctx.arc(x, y, rExterior, 0, Math.PI * 2);
+        ctx.fill();
+
+        // llanta
+        ctx.fillStyle = "#dddddd";
+        ctx.beginPath();
+        ctx.arc(x, y, rInterior, 0, Math.PI * 2);
+        ctx.fill();
+
+        // radios tipo estrella
+        ctx.strokeStyle = "#666666";
+        ctx.lineWidth = 3;
+        for (let i = 0; i < 5; i++) {
+            const angle = (Math.PI * 2 / 5) * i;
+            const x2 = x + rInterior * Math.cos(angle);
+            const y2 = y + rInterior * Math.sin(angle);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+        }
+
+        function dibujarAleron(tipo) {
+        if (tipo === "none") return;
+
+        if (tipo === "normal") {
+        // soporte del alerón
+            ctx.fillStyle = "#555555";
+            ctx.fillRect(520, 170, 8, 40);
+
+        // ala del alerón
+            ctx.fillStyle = colorCoche.value;
+            ctx.beginPath();
+            ctx.moveTo(515, 165);
+            ctx.lineTo(605, 155);
+            ctx.lineTo(605, 165);
+            ctx.lineTo(515, 175);
+            ctx.closePath();
+            ctx.fill();
+        } else if (tipo === "big") {
+        // soporte del alerón
+        ctx.fillStyle = "#555555";
+        ctx.fillRect(520, 170, 8, 40);
+
+        // ala del alerón
+        ctx.fillStyle = colorCoche.value;
+        ctx.beginPath();
+        ctx.moveTo(515, 165);
+        ctx.lineTo(605, 135);
+        ctx.lineTo(605, 165);
+        ctx.lineTo(515, 175);
+        ctx.closePath();
+        ctx.fill(); 
+        }
+    }
+
+    function dibujarCoche() {
+      // limpiar todo
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Suelo
+        ctx.fillStyle = "#3c3c3c";
+        ctx.fillRect(0, 280, 800, 120);
+
+      // CARROCERÍA
+        ctx.fillStyle = colorCoche.value;
+      // parte baja
+        ctx.fillRect(200, 220, 350, 60);
+      // parte superior (techo)
+        ctx.beginPath();
+        ctx.moveTo(260, 220);
+        ctx.lineTo(360, 170);
+        ctx.lineTo(480, 170);
+        ctx.lineTo(540, 220);
+        ctx.closePath();
+        ctx.fill();
+
+      // VENTANAS
+        ctx.fillStyle = colorVentanas.value;
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 2;
+
+      // Ventana delantera
+        ctx.beginPath();
+        ctx.moveTo(280, 220);
+        ctx.lineTo(360, 180);
+        ctx.lineTo(405, 180);
+        ctx.lineTo(405, 220);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+      // Ventana trasera
+        ctx.beginPath();
+        ctx.moveTo(415, 180);
+        ctx.lineTo(470, 180);
+        ctx.lineTo(530, 220);
+        ctx.lineTo(415, 220);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+      // RUEDAS según tipo
+        if (ruedaSelect.value === "basic") {
+        ruedaBasica(275, 290, 35, 18);
+        ruedaBasica(500, 290, 35, 18);
+        } else {
+        ruedaDeportiva(275, 290, 35, 25);
+        ruedaDeportiva(500, 290, 35, 25);
+        }
+
+      // ALERON según tipo
+        dibujarAleron(aleronSelect.value);
+
+      // DETALLES EXTRA
+
+      // línea decorativa lateral
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(220, 250);
+        ctx.lineTo(530, 250);
+        ctx.stroke();
+    }
+
+    // Redibujar cuando cambie cualquier opción
+    aleronSelect.addEventListener("change", dibujarCoche);
+    ruedaSelect.addEventListener("change", dibujarCoche);
+    colorCoche.addEventListener("input", dibujarCoche);
+    colorVentanas.addEventListener("input", dibujarCoche);
+
+    // primer dibujo
+    dibujarCoche();
+    </script>
+</body>
+</html>

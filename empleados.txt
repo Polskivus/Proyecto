@@ -1,1 +1,2 @@
-id;nombre;edad;puesto
+id,nombre,edad,puesto
+

@@ -7,7 +7,7 @@ RUTA_FICHERO = "empleados.txt"
 def cargar_empleados():
     """Lee empleados.txt con Pandas y devuelve DataFrame."""
     try:
-        df = pd.read_csv(RUTA_FICHERO, sep=";", encoding="utf-8")
+        df = pd.read_csv(RUTA_FICHERO, sep=",", encoding="utf-8")
         return df
     except FileNotFoundError:
         # Crear DataFrame vacío con columnas holaaaa
@@ -16,7 +16,7 @@ def cargar_empleados():
 
 def guardar_empleados(df):
     """Guarda DataFrame en empleados.txt con separador ;."""
-    df.to_csv(RUTA_FICHERO, sep=";", index=False, encoding="utf-8")
+    df.to_csv(RUTA_FICHERO, sep=",", index=False, encoding="utf-8")
 
 
 def buscar_empleado_por_id(df, id_buscar):
@@ -125,6 +125,7 @@ def menu():
             df = eliminar_empleado(df)
         elif opcion == "6":
             guardar_empleados(df)
+
             print("Datos guardados. Saliendo...")
             break
         else:

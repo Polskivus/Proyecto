@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Piezas coche, pared y explosión</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .btn-index {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 18px;
+        background-color: #61dafb;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+      }
+      .btn-index:hover {
+        background-color: #21a1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scene">
+      <div class="part motor">Motor</div>
+      <div class="part rueda1">Rueda</div>
+      <div class="part rueda2">Rueda</div>
+      <div class="part puerta">Puerta</div>
+      <div class="part techo">Techo</div>
+
+      <div class="wall"></div>
+
+      <div class="explosion" id="explosion"></div>
+    </div>
+
+    <!-- Botón para volver al index -->
+    <button class="btn-index" onclick="location.href='index.html'">
+      Volver al inicio
+    </button>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const parts = document.querySelectorAll(".part");
+        const explosion = document.getElementById("explosion");
+        let finished = 0;
+
+        parts.forEach((part) => {
+          part.addEventListener("animationend", () => {
+            finished++;
+
+            if (finished === parts.length) {
+              explosion.classList.add("active");
+              setTimeout(() => {
+                parts.forEach((p) => (p.style.opacity = "0"));
+              }, 400);
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
