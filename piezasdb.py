@@ -22,10 +22,10 @@ def mostrar_piezas():
     df = pd.read_csv(CSV_PATH)
     return df
 
-def buscar_por_id():
+def buscar_por_id():#Hacer
     pass
 
-def buscar_por_nombre():
+def buscar_por_nombre():#Hacer
     pass
 
 def cargar_csv_a_db():
