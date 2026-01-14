@@ -1,4 +1,5 @@
 #Importamos lo necesario para trabajar en CSV y SQL
+#Para hacer, ver la manera de hacer todo con el pandas, y solo cuando le des a salir, que coja todo la info y actualize el SQL
 import sqlite3
 import pandas as pd
 
