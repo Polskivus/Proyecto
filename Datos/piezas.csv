@@ -1,19 +1,53 @@
 id_pieza,nombre_pieza,qty
-1,freno,20
-2,freno1,25
-3,freno2,10
-4,freno3,5
-5,freno4,2
-6,freno6,1
-7,freno7,156
-8,motor4,2
-9,motor electrico,1
-10,motro 3,45
-11,frenop 6,2
-12,das,2
-13,motro 3,23
-14,Freno 16,546
-15,freno 123,2
-16,k,1
-17,Prueba,2
-18,Prueba,3
+1,Tornillo M8,500
+2,Tornillo M10,350
+3,Tuerca M8,600
+4,Tuerca M10,420
+5,Arandela M8,800
+6,Arandela M10,750
+7,Motor 1.6L,12
+8,Motor 2.0L,8
+9,Caja de cambios manual,15
+10,Caja de cambios automática,6
+11,Pastilla de freno delantera,120
+12,Pastilla de freno trasera,100
+13,Disco de freno delantero,60
+14,Disco de freno trasero,55
+15,Amortiguador delantero,40
+16,Amortiguador trasero,38
+17,Batería 12V,25
+18,Alternador,18
+19,Arranque eléctrico,22
+20,Filtro de aire,200
+21,Filtro de aceite,180
+22,Filtro de combustible,140
+23,Radiador,30
+24,Bomba de agua,28
+25,Correa de distribución,75
+26,Correa auxiliar,90
+27,Escape completo,10
+28,Silenciador trasero,14
+29,Parachoques delantero,20
+30,Parachoques trasero,18
+31,Faro delantero izquierdo,35
+32,Faro delantero derecho,33
+33,Piloto trasero izquierdo,40
+34,Piloto trasero derecho,42
+35,Retrovisor izquierdo,50
+36,Retrovisor derecho,48
+37,Volante,25
+38,Airbag conductor,20
+39,Airbag acompañante,18
+40,Cinturón de seguridad,70
+41,Asiento delantero,15
+42,Asiento trasero,10
+43,Panel de puerta,45
+44,Manilla de puerta,85
+45,Cristal delantero,12
+46,Cristal trasero,14
+47,Llanta aluminio,60
+48,Neumático 205/55R16,100
+49,Centralita ECU,8
+50,Sonda lambda,26
+51,Servomotor,7
+52,arandela m2,500

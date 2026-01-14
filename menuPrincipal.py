@@ -1,20 +1,18 @@
 from piezasdb import (
-    crear_tabla,
     cargar_csv_a_db,
-    insertar_piezas,
-    mostrar_piezas
+    mostrar_piezas,
+    insert_piezas
 )
 
 def menu():
-    crear_tabla()
-    cargar_csv_a_db()
 
     while True:
         print("\n******** MENU PRINCIPAL ********")
         print("1. Ver piezas")
         print("2. Añadir pieza")
-        print("3. Trabajadores")
-        print("4. Salir")
+        print("3. Buscar pieza")
+        print("4. Trabajadores")
+        print("0. Salir")
 
         opcion = input("Selecciona una opción: ")
 
@@ -26,16 +24,19 @@ def menu():
             case "2":
                 nombre = input("Nombre de la pieza: ")
                 qty = int(input("Cantidad: "))
-                insertar_piezas(nombre, qty)
+                insert_piezas(nombre, qty)
                 print("Pieza añadida correctamente")
 
             case "3":
-                print("Módulo trabajadores (pendiente)")
+                pass
 
             case "4":
+                print("Módulo trabajadores (pendiente)")
+
+            case "0":
+                cargar_csv_a_db()
                 print("Hasta pronto")
                 break
-
             case _:
                 print("Opción no válida")
 
