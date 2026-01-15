@@ -10,6 +10,7 @@ CSV_PATH = "Datos/piezas.csv"
 def conectar_db():
     return sqlite3.connect(DB_PATH)
 
+#Función para insertar piezas en el CSV
 def insert_piezas(nombre_pieza, qty):
     df = pd.read_csv(CSV_PATH)
     nuevo_id = df["id_pieza"].max() + 1
@@ -22,11 +23,61 @@ def mostrar_piezas():
     df = pd.read_csv(CSV_PATH)
     return df
 
-def buscar_por_id():#Hacer
-    pass
+#Con esta función buscas el id de la piezas y te permite editar, el nombre y la cantidad
+def buscar_por_id(id_pieza):#Echo
+    df = pd.read_csv(CSV_PATH)
+    opcion_cantidad = " "
 
-def buscar_por_nombre():#Hacer
-    pass
+    while True:
+        #Busco si el id esta dentro de los id del CSV
+        if id_pieza not in df["id_pieza"].values:
+            print(f"ID {id_pieza} no encontrado.")
+            id_pieza = int(input("Dame otro ID: "))
+        else: 
+            print(f"ID {id_pieza} encontrado.\n")
+            #Aqui paso a la fila, la linea del df, que coincide con el id de buqueda
+            fila = df.loc[df["id_pieza"] == id_pieza].iloc[0]
+
+            nuevo_nombre = input(f"Para editar introduce el nuevo nombre, si no solo dale al enter\nNOMBRE ACTUAL: {fila["nombre_pieza"]} -> ")
+
+            if nuevo_nombre == "":
+                pass
+
+            else:
+                fila["nombre_pieza"] = nuevo_nombre
+
+                df.loc[fila.name, ["nombre_pieza"]] = fila[["nombre_pieza"]]
+                df.to_csv(CSV_PATH, index=False)
+
+            while opcion_cantidad not in ("s","n"):
+
+                opcion_cantidad = input("Quieres cambiar la cantida de piezas. (s/n)").lower()
+
+                if opcion_cantidad == "s":
+                    
+                    nuevas_cantidad = int(input(f"Dame la nueva cantidad de piezas.\nNUMERO ACTUAL: {fila["qty"]} -> "))
+                    df.loc[fila.name, ["qty"]] = nuevas_cantidad
+                    df.to_csv(CSV_PATH, index=False)
+
+                elif opcion_cantidad == "n":
+                    break
+                else:
+                    print("Opcion no valida.")
+             
+            break
+
+    return print("\nTransacción completada")
+
+def eliminar_piezas(id_pieza_a_eliminar):
+    df = pd.read_csv(CSV_PATH)
+
+    if id_pieza_a_eliminar not in df["id_pieza"].values:
+        print(f"ID {id_pieza} no encontrado.")
+        id_pieza = int(input("Dame otro ID: "))
+    else:
+        df_eliminado = df[df["id_pieza"] != id_pieza_a_eliminar]
+        df_eliminado.to_csv(CSV_PATH, index=False)
+        print(f"Pieza con el id {id_pieza_a_eliminar}, Eliminado.")
 
 def cargar_csv_a_db():
     conn = conectar_db()
