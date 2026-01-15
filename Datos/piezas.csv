@@ -1,5 +1,5 @@
 id_pieza,nombre_pieza,qty
-1,Tornillo M8,500
+1,Retrovisor,500
 2,Tornillo M10,350
 3,Tuerca M8,600
 4,Tuerca M10,420
@@ -19,7 +19,7 @@ id_pieza,nombre_pieza,qty
 18,Alternador,18
 19,Arranque eléctrico,22
 20,Filtro de aire,200
-21,Filtro de aceite,180
+21,Aceite,190
 22,Filtro de combustible,140
 23,Radiador,30
 24,Bomba de agua,28
@@ -50,4 +50,6 @@ id_pieza,nombre_pieza,qty
 49,Centralita ECU,8
 50,Sonda lambda,26
 51,Servomotor,7
-52,arandela m2,500
+52,Arandela M1,500
+53,Rotula,45
+54,Bujia de Inyeccion,10
