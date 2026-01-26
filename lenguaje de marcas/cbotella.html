@@ -1,65 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Piezas coche, pared y explosión</title>
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      .btn-index {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 18px;
-        background-color: #61dafb;
-        color: #000;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-      }
-      .btn-index:hover {
-        background-color: #21a1f1;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="scene">
-      <div class="part motor">Motor</div>
-      <div class="part rueda1">Rueda</div>
-      <div class="part rueda2">Rueda</div>
-      <div class="part puerta">Puerta</div>
-      <div class="part techo">Techo</div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Piezas coche y pared</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
 
-      <div class="wall"></div>
+  <!-- Control velocidad -->
+  <div class="control-velocidad">
+    Velocidad pared
+    <input type="range" min="0.5" max="5" step="0.1" value="2.9" id="velocidadPared">
+  </div>
 
-      <div class="explosion" id="explosion"></div>
-    </div>
+  <!-- Partes del coche y la escena -->
+  <div class="escena">
+    <div class="pieza motor">Motor</div>
+    <div class="pieza rueda1">Rueda</div>
+    <div class="pieza rueda2">Rueda</div>
+    <div class="pieza puerta">Puerta</div>
+    <div class="pieza techo">Techo</div>
 
-    <!-- Botón para volver al index -->
-    <button class="btn-index" onclick="location.href='index.html'">
-      Volver al inicio
-    </button>
+    <!-- pared y explosion -->
+    <div class="pared"></div>
+    <div class="explosion" id="explosion"></div>
+  </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const parts = document.querySelectorAll(".part");
-        const explosion = document.getElementById("explosion");
-        let finished = 0;
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const piezas = document.querySelectorAll(".pieza");
+      const pared = document.querySelector(".pared");
+      const controlVelocidad = document.getElementById("velocidadPared");
 
-        parts.forEach((part) => {
-          part.addEventListener("animationend", () => {
-            finished++;
-
-            if (finished === parts.length) {
-              explosion.classList.add("active");
-              setTimeout(() => {
-                parts.forEach((p) => (p.style.opacity = "0"));
-              }, 400);
-            }
-          });
-        });
+      // Control de rango de la velocidad de la pared (buscado info con ia pero hecho a mano)
+      controlVelocidad.addEventListener("input", () => {
+        document.documentElement.style.setProperty(
+          "--velocidad-pared",
+          controlVelocidad.value + "s"
+        );
       });
-    </script>
-  </body>
+
+      // INICIO IA
+      function comprobarColision() {
+        const rectanguloPared = pared.getBoundingClientRect();
+
+        piezas.forEach(pieza => {
+          if (pieza.dataset.detendida) return;
+
+          const rectanguloPieza = pieza.getBoundingClientRect();
+
+          const colision =
+            rectanguloPieza.right >= rectanguloPared.left &&
+            rectanguloPieza.left <= rectanguloPared.right &&
+            rectanguloPieza.bottom >= rectanguloPared.top &&
+            rectanguloPieza.top <= rectanguloPared.bottom;
+
+          if (colision) {
+            pieza.style.animationPlayState = "paused";
+            pieza.dataset.detendida = "true";
+          }
+        });
+      }
+
+      setInterval(comprobarColision, 20);
+    });
+    // FIN IA
+  </script>
+
+</body>
 </html>
