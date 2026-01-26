@@ -6,6 +6,17 @@ from piezasdb import (
     eliminar_piezas
 )
 
+from empleadosdb import(
+    listar_empleados,
+    buscar_empleado_por_dni,
+    agregar_empleado,
+    cargar_empleados,
+    editar_empleado,
+    eliminar_empleado,
+    mostrar_empleado,
+    guardar_empleados
+)
+
 def menu():
 
     while True:
@@ -50,26 +61,39 @@ def menu():
                 print("Módulo trabajadores (pendiente)")
 
                 while True:
-                    print("\n******** SUBMENU EMPLEADOS ********")
-                    print("1. Ver empleados")
-                    print("2. Añadir empleado")
-                    print("3. Buscar o editar empleado")
-                    print("0. Salir")
+                    print("\n===== GESTIÓN DE EMPLEADOS =====")
+                    print("1. Listar empleados")
+                    print("2. Ver empleado por DNI")
+                    print("3. Añadir empleado")
+                    print("4. Editar empleado")
+                    print("5. Eliminar empleado")
+                    print("0. Guardar y salir")
 
                     opcion_submenu = input("Selecciona una opción: ")
+
+                    dfe = cargar_empleados()
 
                     match opcion_submenu:
 
                         case "1":
-                            pass
+                            listar_empleados(dfe)
 
                         case "2":
-                            pass
+                            id_buscar = input("DNI empleado: ")
+                            emp = buscar_empleado_por_dni(dfe, id_buscar)
+                            mostrar_empleado(emp)
 
                         case "3":
-                            pass
+                            df = agregar_empleado(dfe)
+
+                        case "4":
+                            df = editar_empleado(dfe)
+
+                        case "5":
+                            df = eliminar_empleado(dfe)
 
                         case "0":
+                            guardar_empleados(dfe)
                             print("Guardando cambios y volviendo al menu principal")
                             break
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    #contenedor {
+    position: relative;
+    width: 600px;
+    height: 200px;
+    border: 2px solid black;
+    }
+
+    #movil {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: blue;
+    top: 75px;
+    left: 0;
+    }
+
+    #obstaculo {
+    position: absolute;
+    width: 20px;
+    height: 150px;
+    background: red;
+    top: 25px;
+    left: 300px;
+    }
+
+    </style>
+</head>
+<body>
+    
+    <div id="contenedor">
+        <div id="movil"></div>
+        <div id="obstaculo"></div>
+    </div>
+
+
+
+<script>
+const movil = document.getElementById("movil");
+const obstaculo = document.getElementById("obstaculo");
+
+let x = 0;
+let velocidadX = 2;
+
+let y = 0;
+let velocidadY = 1;
+
+// Detección de colisión
+function colision(a, b) {
+  const r1 = a.getBoundingClientRect();
+  const r2 = b.getBoundingClientRect();
+
+  return !(
+    r1.right < r2.left ||
+    r1.left > r2.right ||
+    r1.bottom < r2.top ||
+    r1.top > r2.bottom
+  );
+}
+
+// Movimiento del bloque azul
+function moverAzul() {
+  if (!colision(movil, obstaculo)) {
+    x += velocidadX;
+    movil.style.left = x + "px";
+  }
+}
+
+// Movimiento de la pared roja
+function moverRojo() {
+  y += velocidadY;
+  if (y <= 0 || y >= 500) {
+    velocidadY *= -1; // rebota arriba/abajo
+  }
+  obstaculo.style.top = y + "px";
+}
+
+// Loop principal
+function animar() {
+  moverRojo();
+  moverAzul();
+  requestAnimationFrame(animar);
+}
+
+animar();
+</script>
+
+</script>
+
+
+
+</body>
+</html>

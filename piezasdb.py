@@ -48,7 +48,7 @@ def buscar_por_id(id_pieza):#Echo
 
                 df.loc[fila.name, ["nombre_pieza"]] = fila[["nombre_pieza"]]
                 df.to_csv(CSV_PATH, index=False)
-
+            #Esto por si quieres cambiar el numero de piezas
             while opcion_cantidad not in ("s","n"):
 
                 opcion_cantidad = input("Quieres cambiar la cantida de piezas. (s/n)").lower()
@@ -67,7 +67,7 @@ def buscar_por_id(id_pieza):#Echo
             break
 
     return print("\nTransacción completada")
-
+#Funcion para eliminar las piezas
 def eliminar_piezas(id_pieza_a_eliminar):
     df = pd.read_csv(CSV_PATH)
 

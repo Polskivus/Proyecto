@@ -17,7 +17,7 @@ def crear_tablas():
 
     cursor.execute("""
             CREATE TABLE IF NOT EXISTS empleados (
-                id_empleado INTEGER PRIMARY KEY,
+                dni_empleado VARCHAR(9) PRIMARY KEY,
                 edad INTEGER NOT NULL,
                 nombre TEXT NOT NULL,
                 puesto TEXT NOT NULL           

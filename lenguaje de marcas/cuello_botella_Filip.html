@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Línea de Montaje Industrial</title>
+
+    <style>
+        body {
+            background: #111;
+            color: #00ff66;
+            font-family: "Courier New", monospace;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: #1a1a1a;
+            border: 2px solid #00ff66;
+            padding: 20px;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .control {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            background: #000;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 5px;
+            font-family: inherit;
+        }
+
+        button {
+            background: #000;
+            color: #00ff66;
+            border: 2px solid #00ff66;
+            padding: 10px;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #003300;
+        }
+
+        .estado {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #00ff66;
+            text-align: center;
+        }
+
+        canvas {
+            margin-top: 20px;
+            background: #222;
+            border: 2px solid #00ff66;
+        }
+    </style>
+</head>
+<body>
+
+<h1>SISTEMA DE LINEA DE MONTAJE</h1>
+
+<div class="panel">
+
+    <div class="control">
+        <label>Velocidad de la cinta</label>
+        <input type="range" min="1" max="10" value="5" id="velocidad">
+        <span id="velocidadValor">5</span>
+    </div>
+
+    <div class="control">
+        <label>Cantidad de piezas</label>
+        <input type="number" min="1" max="100" value="30" id="piezas">
+    </div>
+
+    <button id="btnAnimar">INICIAR CICLO</button>
+
+    <div id="estado" class="estado">Sistema en espera</div>
+
+    <canvas id="canvas" width="600" height="160"></canvas>
+
+</div>
+
+<script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    const velocidadInput = document.getElementById("velocidad");
+    const piezasInput = document.getElementById("piezas");
+    const estadoDiv = document.getElementById("estado");
+    const velocidadValor = document.getElementById("velocidadValor");
+    const btnAnimar = document.getElementById("btnAnimar");
+
+    let piezas = [];
+    let animando = false;
+    let animationId = null;
+
+    function crearPiezas() {
+        piezas = [];
+        for (let i = 0; i < piezasInput.value; i++) {
+            piezas.push({
+                x: Math.random() * canvas.width,
+                y: 70
+            });
+        }
+    }
+
+    function evaluarEstado() {
+        const v = +velocidadInput.value;
+        const p = +piezasInput.value;
+
+        velocidadValor.textContent = v;
+
+        if (v > 8 && p > 70) {
+            estadoDiv.textContent = "ESTADO: FALLA - SOBRECARGA";
+            return "falla";
+        }
+
+        if (v < 2 && p < 10) {
+            estadoDiv.textContent = "ESTADO: FALLA - PRODUCCION INSUFICIENTE";
+            return "falla";
+        }
+
+        if (v >= 4 && v <= 6 && p >= 20 && p <= 40) {
+            estadoDiv.textContent = "ESTADO: CONFIGURACION OPTIMA";
+            return "optimo";
+        }
+
+        estadoDiv.textContent = "ESTADO: FUNCIONAMIENTO NORMAL";
+        return "normal";
+    }
+
+    function dibujarLinea() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#444";
+        ctx.fillRect(0, 65, canvas.width, 30);
+
+        ctx.fillStyle = "#222";
+        for (let i = 0; i < canvas.width; i += 40) {
+            ctx.fillRect(i, 65, 6, 30);
+        }
+    }
+
+    function dibujarPiezas(estado) {
+        piezas.forEach(p => {
+            ctx.fillStyle = estado === "falla" ? "#880000" : "#00ff66";
+            ctx.fillRect(p.x, p.y, 14, 14);
+
+            if (estado !== "falla") {
+                p.x += +velocidadInput.value * 0.6;
+            }
+
+            if (p.x > canvas.width) {
+                p.x = -20;
+            }
+        });
+    }
+
+    function animar() {
+        if (!animando) return;
+
+        const estado = evaluarEstado();
+        dibujarLinea();
+        dibujarPiezas(estado);
+
+        animationId = requestAnimationFrame(animar);
+    }
+
+    function iniciarAnimacion() {
+        if (animando) return;
+
+        crearPiezas();
+        animando = true;
+        btnAnimar.textContent = "DETENER CICLO";
+        estadoDiv.textContent = "EJECUTANDO CICLO...";
+        animationId = requestAnimationFrame(animar);
+    }
+
+    function detenerAnimacion() {
+        animando = false;
+        cancelAnimationFrame(animationId);
+        animationId = null;
+        btnAnimar.textContent = "INICIAR CICLO";
+        estadoDiv.textContent = "CICLO DETENIDO";
+    }
+
+    btnAnimar.addEventListener("click", () => {
+        if (animando) {
+            detenerAnimacion();
+        } else {
+            iniciarAnimacion();
+        }
+    });
+
+    evaluarEstado();
+</script>
+</body>
+</html>
