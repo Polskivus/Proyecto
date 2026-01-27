@@ -97,3 +97,21 @@ body {
   opacity: 0;
   left: 520px;
 }
+
+/* Botón para volver al index */
+        .btn-index {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          padding: 10px 18px;
+          background-color: #61dafb;
+          color: #000;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+        }
+        .btn-index:hover {
+          background-color: #21a1f1;
+        }

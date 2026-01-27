@@ -1,46 +1,286 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Menú principal</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio - Proyecto DAM</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #20232a;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
+      * {
+        margen: 0;
+        relleno: 0;
+        box-sizing: border-box;
+      }
+
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+      }
+
+
+      /* Encabezado y Navegación */
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.5rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+
+      nav li {
+        position: relative;
+      }
+
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 0.7rem 1.5rem;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        display: block;
+      }
+
+
+      nav a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+
+      nav a.active {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+
+      /* Contenido Principal */
+      main {
+        min-height: calc(100vh - 80px);
+      }
+
+
+      /* Sección Hero/Inicio */
+      .hero {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 6rem 2rem;
+        text-align: center;
+      }
+
+
+      .hero h1 {
+        font-size: 4rem;
+        color: #764ba2;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+
+      .hero p {
+        font-size: 1.5rem;
+        color: #555;
+        max-width: 700px;
+        margin: 1rem auto;
+      }
+
+
+      /* Sección de contenido */
+      .contenido {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+      }
+
+
+      .cuadricula-tarjetas {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+
+      .tarjeta-info {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+
+      .tarjeta-info:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+
+      .tarjeta-info h3 {
+        color: #667eea;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+
+
+      .tarjeta-info p {
+        color: #666;
+        line-height: 1.8;
+      }
+
+
+      .tarjeta-info .icono {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+
+      /* Pie de página */
+      footer {
+        background: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 4rem;
+      }
+
+
+      /* IA */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
         }
-        h1 {
-            margin-bottom: 20px;
+
+
+        .hero p {
+          font-size: 1.2rem;
         }
-        a {
-            display: block;
-            margin: 10px 0;
-            padding: 10px 20px;
-            color: #20232a;
-            background-color: #61dafb;
-            text-decoration: none;
-            border-radius: 5px;
-            width: 220px;
-            text-align: center;
+
+
+        nav ul {
+          gap: 1rem;
         }
-        a:hover {
-            background-color: #21a1f1;
+
+
+        nav a {
+          font-size: 0.95rem;
+          padding: 0.5rem 1rem;
         }
+      }
+      /* FIN IA */
     </style>
-</head>
-<body>
-    <h1>Menu principal</h1>
+  </head>
+  <body>
+    <!-- Encabezado con Navegación -->
+    <header>
+      <nav>
+        <ul>
+          <li><a href="indexo.html" class="active">Inicio</a></li>
+          <li><a href="kahoot.html">Kahoot</a></li>
+          <li><a href="personalizador.html">Personalizador de Coche</a></li>
+          <li><a href="cuello-botella.html">Cuello de Botella</a></li>
+        </ul>
+      </nav>
+    </header>
 
-    <!-- Cambia href por las rutas reales de tus páginas -->
-    <a href="kahoot.html">Ir a Kahoot</a>
-    <a href="cbotella.html">Ir a Cuello de botella</a>
-    <a href="concesionario.html">Ir al personalizador de coche</a>
 
-</body>
+    <!-- Contenido Principal -->
+    <main>
+      <!-- Sección Hero -->
+      <section class="hero">
+        <h1>LENGUAJE DE MARCAS</h1>
+        <p>Bienvenido a nuestra página web</p>
+        <p style="font-size: 1.2rem; margin-top: 1.5rem">
+          Explora las diferentes secciones usando el menú superior
+        </p>
+      </section>
+
+
+      <!-- Contenido de Inicio -->
+      <section class="contenido">
+        <h2
+          style="
+            text-align: center;
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+          "
+        >
+          Sobre el Proyecto
+        </h2>
+        <p
+          style="
+            text-align: center;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+          "
+        >
+          Este proyecto forma parte del módulo de Lenguaje de Marcas y Empleabilidad.
+          Incluye diferentes aplicaciones web interactivas que
+          demuestran conocimientos en HTML, CSS y JavaScript.
+        </p>
+
+
+        <div class="cuadricula-tarjetas">
+          <div class="tarjeta-info">
+            <div class="icono"></div>
+            <h3>Kahoot</h3>
+            <p>
+              Sistema interactivo de preguntas y respuestas inspirado en la
+              plataforma Kahoot.
+            </p>
+          </div>
+
+
+          <div class="tarjeta-info">
+            <div class="icono"></div>
+            <h3>Personalizador</h3>
+            <p>
+              Herramienta para personalizar vehículos, permitiendo cambiar
+              colores, modelos y características.
+            </p>
+          </div>
+
+
+          <div class="tarjeta-info">
+            <div class="icono"></div>
+            <h3>Cuello de Botella</h3>
+            <p>
+              Análisis visual de procesos productivos para identificar cuellos
+              de botella y optimizar flujos de trabajo.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+
+    <!-- Pie de página -->
+    <footer>
+      <p>&copy; 2026 - Proyecto Desarrollo de Aplicaciones Multiplataforma</p>
+      <p style="margin-top: 0.5rem; opacity: 0.8">Cebanc, grupo 2</p>
+    </footer>
+  </body>
 </html>
