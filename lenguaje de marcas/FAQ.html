@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Factory FAQ</title>
+    <style>
+        /* Reset básico */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1a73e8;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .faq-item {
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            background-color: #eaf1fc;
+            transition: background-color 0.2s;
+        }
+
+        .faq-question:hover {
+            background-color: #d2e3fc;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            display: none;
+            border-top: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .faq-answer p {
+            margin-bottom: 10px;
+        }
+        
+    #homeBtn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      padding: 8px 16px;
+      background: #2a8bff;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }   
+    </style>
+</head>
+<body>
+    <header>
+        <button id="homeBtn" onclick="location.href='index.html'">Volver</button>
+        <h1>SEAT FACTORIE FAQ</h1>
+        <p>Your questions answered about our automotive production and services</p>
+    </header>
+
+    <main>
+        <div class="faq-item">
+            <div class="faq-question">What types of cars do you manufacture?</div>
+            <div class="faq-answer">
+                <p>We specialize in manufacturing a wide range of vehicles including electric cars, SUVs, sedans, and hybrid models designed for both urban and off-road use.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Where is your factory located?</div>
+            <div class="faq-answer">
+                <p>Our main production facility is located in Detroit, Michigan, with additional plants in Europe and Asia to meet global demand efficiently.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Do you offer factory tours?</div>
+            <div class="faq-answer">
+                <p>Yes, we offer guided tours of our manufacturing plants. Visitors can observe the production line, learn about our assembly processes, and see our quality control in action. Booking in advance is required.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What safety standards do you follow?</div>
+            <div class="faq-answer">
+                <p>We strictly adhere to international safety and quality standards, including ISO 9001 and ISO 14001 certifications. Our facilities prioritize employee safety and sustainable manufacturing practices.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How can I become a supplier or partner?</div>
+            <div class="faq-answer">
+                <p>We welcome partnerships with certified suppliers. Please contact our procurement department through the official website to submit your application and meet our qualification criteria.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Script para toggle de preguntas
+        const questions = document.querySelectorAll('.faq-question');
+
+        questions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isOpen = answer.style.display === 'block';
+                
+                // Cierra todas las respuestas
+                document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+
+                // Abre la seleccionada si no estaba abierta
+                if (!isOpen) {
+                    answer.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
