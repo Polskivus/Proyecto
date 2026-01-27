@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atrapa un Millón</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1c2d;
+      color: white;
+      text-align: center;
+      padding: 24px;
+    }
+    .panel {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    #progreso {
+      opacity: 0.85;
+      margin: 10px 0 18px;
+    }
+    #pregunta {
+      margin: 14px 0 18px;
+      line-height: 1.3;
+    }
+    .respuesta {
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      width: min(520px, 90vw);
+      font-size: 16px;
+      cursor: pointer;
+      border: 0;
+      border-radius: 10px;
+      background: #12395e;
+      color: white;
+      transition: transform 0.05s ease;
+    }
+    .respuesta:active { transform: scale(0.99); }
+    #resultado {
+      min-height: 22px;
+      margin-top: 14px;
+      opacity: 0.95;
+    }
+    #reiniciar {
+      display: none;
+      margin: 18px auto 0;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 0;
+      cursor: pointer;
+      background: #2a8bff;
+      color: white;
+      font-size: 16px;
+    }
+    .nota {
+      opacity: 0.8;
+      font-size: 14px;
+      margin-top: 10px;
+      line-height: 1.25;
+    }
+    #homeBtn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      padding: 8px 16px;
+      background: #2a8bff;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+  <button id="homeBtn" onclick="location.href='index.html'">Volver</button>
+  <div class="panel">
+    <h1>Atrapa un Millón</h1>
+    <div id="progreso"></div>
+
+    <h2 id="pregunta"></h2>
+    <div id="opciones"></div>
+
+    <p id="resultado"></p>
+    <button id="reiniciar">Reiniciar</button>
+
+    <p class="nota" id="nota"></p>
+  </div>
+
+  <script>
+    // Nota: algunas preguntas del documento están incompletas o son de “multi-respuesta”.
+    // Para esas, "correcta" va como null y NO cuentan para el marcador final.
+
+    const preguntas = [
+      {
+        id: 1,
+        texto: "El derecho laboral que te concede la Constitución española, es superior jerárquicamente a la normativa europea",
+        opciones: ["No", "Sí"],
+        correcta: 0
+      },
+      {
+        id: 2,
+        texto: "¿Cuál de estos no forman parte de la jerarquía?",
+        opciones: ["Constitución española", "Normas con rango de ley", "Convenio colectivo", "Ley tributaria"],
+        correcta: 3
+      },
+      {
+        id: 3,
+        texto: "Según la normativa laboral, la relación de un funcionario público se considera",
+        opciones: ["Relación laboral excluida", "Relación laboral especial", "Relación laboral común", "Relación mercantil"],
+        correcta: 0
+      },
+      {
+        id: 4,
+        texto: "De estas 4 opciones ¿cuál no es una relación excluida?",
+        opciones: ["Autónomos", "Un trabajador de una fábrica", "Trabajo temporal", "Deportista de alto rendimiento"],
+        correcta: 3
+      },
+      {
+        id: 5,
+        texto: "¿Qué tipo de relación tienen los altos directivos de las empresas?",
+        opciones: ["Especiales", "Excluida", "Ordinaria"],
+        correcta: 0
+      },
+      {
+        id: 6,
+        texto: "¿Cuál de las siguientes opciones corresponde a una relación laboral de carácter especial según la legislación laboral española?",
+        opciones: [
+          "El trabajo realizado por funcionarios públicos",
+          "La relación laboral de los artistas en espectáculos públicos",
+          "El trabajo autónomo económicamente dependiente",
+          "La prestación de servicios como voluntario en una ONG"
+        ],
+        correcta: 1
+      },
+      {
+        id: 7,
+        texto: "¿Cuál de las siguientes afirmaciones diferencia correctamente el trabajo por cuenta ajena del trabajo por cuenta propia?",
+        opciones: [
+          "En el trabajo por cuenta propia existe un salario fijado por la empresa.",
+          "En el trabajo por cuenta ajena el trabajador asume las pérdidas del negocio.",
+          "En el trabajo por cuenta ajena existe dependencia y subordinación a un empleador.",
+          "En el trabajo por cuenta propia hay un jefe que da órdenes directas."
+        ],
+        correcta: 2
+      },
+      {
+        id: 8,
+        texto: "¿Cuál de las siguientes afirmaciones no es correcta para las personas que trabajan por cuenta ajena?",
+        opciones: [
+          "Trabajan para un empleador o empresa.",
+          "Están bajo la dirección de un jefe o superior.",
+          "Asumen el riesgo económico de la actividad.",
+          "Tienen un salario fijado previamente."
+        ],
+        correcta: 2
+      },
+      {
+        id: 9,
+        texto: "¿Cuál de las siguientes afirmaciones no es propia de una persona que trabaja por cuenta propia?",
+        opciones: [
+          "Organiza su trabajo de manera autónoma.",
+          "Asume el riesgo económico de su actividad.",
+          "Recibe órdenes directas de un jefe o superior.",
+          "Decide cómo y cuándo realizar sus tareas."
+        ],
+        correcta: 2
+      },
+      {
+        id: 10,
+        texto: "¿Qué es la ITSS?",
+        opciones: [
+          "Inspección de Trabajo y Seguridad Social.",
+          "Instituto Técnico de Servicios Sanitarios.",
+          "International Technology Support System.",
+          "Impuesto sobre Transacciones de Servicios Sociales."
+        ],
+        correcta: 0
+      },
+      {
+        id: 11,
+        texto: "¿Cuál de estos no es un poder de la empresa?",
+        opciones: ["Dirección", "Control", "Disciplinario", "Creativo absoluto"],
+        correcta: 3
+      },
+      {
+        id: 12,
+        texto: "¿Puede la empresa grabarte en vídeo en tu puesto de trabajo? (por ejemplo, cuando estás trabajando en tu ordenador)",
+        opciones: ["Sí, pero sin sonido.", "No, solo con sonido.", "Sí, pero con sonido y con color.", "No."],
+        correcta: 0
+      },
+      {
+        id: 13,
+        texto: "¿Qué es la Seguridad Social?",
+        opciones: [
+          "Un sistema privado de seguros médicos.",
+          "Un organismo internacional de ayuda humanitaria.",
+          "Un sistema público que protege a las personas ante situaciones como enfermedad, desempleo o jubilación.",
+          "Un impuesto obligatorio para financiar a las empresas."
+        ],
+        correcta: 2
+      },
+      {
+        id: 14,
+        texto: "¿Qué objetivo tiene la Seguridad Social?",
+        opciones: [
+          "Aumentar los beneficios de las empresas privadas.",
+          "Controlar el comercio internacional.",
+          "Sustituir a los seguros privados.",
+          "Garantizar la protección y el bienestar de las personas ante situaciones de necesidad."
+        ],
+        correcta: 3
+      },
+      {
+        id: 15,
+        texto: "¿Cuáles son los principios básicos de la Seguridad Social?",
+        opciones: [
+          "Competencia, privatización y rentabilidad.",
+          "Jerarquía, disciplina y control económico.",
+          "Individualismo, libre mercado y beneficio empresarial.",
+          "Universalidad, solidaridad e igualdad."
+        ],
+        correcta: 3
+      },
+      {
+        id: 16,
+        texto: "¿Cuál es la diferencia más característica de una prestación contributiva o no contributiva?",
+        opciones: [
+          "La cuantía económica que se cobra.",
+          "El organismo que la gestiona.",
+          "La duración de la prestación.",
+          "Que la contributiva exige haber cotizado previamente y la no contributiva no."
+        ],
+        correcta: 3
+      },
+      {
+        id: 17,
+        texto: "¿Qué prestaciones tiene la Seguridad Social?",
+        opciones: [
+          "Solo pensiones de jubilación.",
+          "Únicamente asistencia sanitaria.",
+          "Ayudas privadas gestionadas por bancos.",
+          "Asistencia sanitaria y prestaciones económicas (jubilación, incapacidad, desempleo, viudedad, etc.)."
+        ],
+        correcta: 3
+      },
+      {
+        id: 18,
+        texto: "¿Cuántas semanas retribuidas te dan por baja de maternidad?",
+        opciones: ["1 semana.", "19 semanas.", "44 semanas.", "30 semanas."],
+        correcta: null // en el documento aparece así, pero puede estar desactualizada/errónea → no cuenta para nota
+      },
+      {
+        id: 19,
+        texto: "¿Qué regula el SEPE?",
+        opciones: ["Jubilación", "Nacimiento de un niño", "El paro", "Las bajas"],
+        correcta: 2
+      },
+      {
+        id: 20,
+        texto: "¿Cuántos días tienes que haber cotizado para la prestación por desempleo?",
+        opciones: [
+          "Haber cotizado al menos 360 días en los últimos 6 años.",
+          "Haber cotizado al menos 180 días en toda la vida laboral.",
+          "Haber trabajado al menos 5 años continuos sin cotizar.",
+          "Haber cotizado solamente días en contratos a tiempo parcial."
+        ],
+        correcta: 0
+      },
+      {
+        id: 21,
+        texto: "¿Cuántos años tienes que haber trabajado para jubilarte? (mínimo para tener derecho a pensión contributiva)",
+        opciones: [
+          "Haber cotizado al menos 15 años.",
+          "Haber trabajado solo 5 años sin cotizar.",
+          "Haber trabajado 50 años exactamente.",
+          "Haber cotizado únicamente 1 año."
+        ],
+        correcta: 0
+      },
+      {
+        id: 22,
+        texto: "Si te has hecho un esguince en tu casa, ¿te dan incapacidad temporal y te pagan?",
+        opciones: [
+          "Sí, desde el primer día.",
+          "Sí, a partir del cuarto día.",
+          "No te pagan.",
+          "Te pagan la mitad del sueldo."
+        ],
+        correcta: 1
+      },
+      {
+        id: 23,
+        texto: "Indefinido - ¿Cuáles dos contratos se consideran indefinidos?",
+        opciones: [
+          "Ordinario",
+          "Formación en alternancia",
+          "Fijo-discontinuo",
+          "Contrato de relevo"
+        ],
+        correcta: null // es de selección múltiple (2 correctas) → no cuenta para nota con este formato
+      },
+      {
+        id: 24,
+        texto: "En un contrato fijo-discontinuo, se considera que tienes el puesto fijo, pero ¿de qué depende para que vuelvas a la producción?",
+        opciones: [
+          "Por temporada (ej. temporada de verano).",
+          "Por producción.",
+          "Porque el empresario quiere o el empleado quiere."
+        ],
+        correcta: 0
+      },
+      {
+    id: 24,
+    texto: "En un contrato fijo-discontinuo, se considera que tienes el puesto fijo, pero ¿de qué depende para que vuelvas a la producción?",
+    opciones: [
+      "Por temporada (ej. temporada de verano)",
+      "Por producción",
+      "Porque el empresario quiere o el empleado quiere"
+    ],
+    correcta: 0
+  },
+  {
+    id: 25,
+    texto: "Contrato temporal - ¿Cuál es la característica principal de este contrato?",
+    opciones: [
+      "Tiene fecha de inicio y fin definida",
+      "Es indefinido",
+      "Solo aplica a trabajadores autónomos",
+      "No cotiza a la Seguridad Social"
+    ],
+    correcta: 0
+  },
+  {
+    id: 26,
+    texto: "Contrato formativo - ¿Qué permite este tipo de contrato?",
+    opciones: [
+      "Combinar trabajo con formación",
+      "Trabajar solo fines de semana",
+      "Ser indefinido desde el inicio",
+      "Reducir los derechos del trabajador"
+    ],
+    correcta: 0
+  },
+  {
+    id: 27,
+    texto: "Periodo de prueba - ¿Cuál es el objetivo del período de prueba en un contrato laboral?",
+    opciones: [
+      "Permitir al empleador y trabajador evaluar si la relación laboral se adapta a ambos",
+      "Permitir al trabajador trabajar sin remuneración",
+      "Reducir los derechos del trabajador permanentemente",
+      "Evitar que se pague la Seguridad Social"
+    ],
+    correcta: 0
+  },
+      {
+        id: 29,
+        texto: "¿En cuál de estos casos sí se permitiría una diferencia de trato?",
+        opciones: [
+          "Por razón de sexo",
+          "Por discapacidad",
+          "Por causas objetivas relacionadas con el puesto de trabajo",
+          "Por orientación sexual"
+        ],
+        correcta: 2
+      },
+      {
+        id: 30,
+        texto: "¿Qué aspectos del salario regula el Estatuto de los Trabajadores?",
+        opciones: [
+          "La estructura y composición del salario",
+          "Las percepciones salariales y extrasalariales",
+          "Las normas básicas sobre retribución de las personas trabajadoras",
+          "El importe exacto del salario de cada trabajador"
+        ],
+        correcta: 2
+      },
+      {
+        id: 31,
+        texto: "¿Qué NO forma parte del salario?",
+        opciones: [
+          "Las indemnizaciones",
+          "El salario base",
+          "Los complementos salariales",
+          "Las pagas extraordinarias"
+        ],
+        correcta: 0
+      },
+      {
+        id: 32,
+        texto: "¿Qué regula el Estatuto de los Trabajadores?",
+        opciones: [
+          "Únicamente la duración máxima de la jornada laboral",
+          "Solo los salarios y las pagas extraordinarias",
+          "Exclusivamente las normas internas de cada empresa",
+          "Los derechos y deberes básicos de las personas trabajadoras"
+        ],
+        correcta: 3
+      },
+      {
+        id: 33,
+        texto: "El Salario Mínimo Interprofesional se fija teniendo en cuenta… (en el documento esta parte parece recortada)",
+        opciones: [
+          "Únicamente el beneficio económico de las empresas",
+          "La antigüedad media de los trabajadores",
+          "El número de contratos temporales vigentes (texto incompleto en el documento)",
+          "El convenio colectivo de cada empresa"
+        ],
+        correcta: 1
+      },
+      {
+        id: 34,
+        texto: "¿Cuál es el descanso mínimo semanal para mayores de edad del trabajador?",
+        opciones: [
+          "Un día y medio ininterrumpido",
+          "Dos días completos",
+          "Un día y medio acumulable por períodos de hasta 14 días",
+          "Un día completo obligatorio"
+        ],
+        correcta: 2
+      },
+      {
+        id: 35,
+        texto: "¿El Estatuto de los Trabajadores concede permiso retribuido por matrimonio?",
+        opciones: [
+          "No, el matrimonio no genera ningún permiso",
+          "Sí, concede un permiso retribuido de 15 días naturales",
+          "Sí, pero solo concede 5 días laborables",
+          "Solo si lo permite el convenio colectivo"
+        ],
+        correcta: 1
+      },
+      {
+        id: 36,
+        texto: "Las vacaciones anuales… (en esta pregunta hay varias opciones verdaderas en el documento)",
+        opciones: [
+          "Son retribuidas",
+          "No pueden ser inferiores a 30 días naturales",
+          "Pueden fraccionarse",
+          "Pueden renunciarse voluntariamente"
+        ],
+        correcta: 2 // multi-verdadera → no cuenta para nota
+      },
+      {
+        id: 37,
+        texto: "El derecho a vacaciones…",
+        opciones: ["Es anual", "Es obligatorio", "Son renunciable", "Depende del rendimiento del trabajador"],
+        correcta: 2 // parece que hay más de una verdadera → no cuenta para nota
+      },
+      {
+        id: 38,
+        texto: "El CC TIC puede ayudarte a mejorar tus condiciones laborales, ¿en cuál de ellas no?",
+        opciones: ["Salario", "Vacaciones", "Indemnizaciones", "Derechos fundamentales"],
+        correcta: 3
+      },
+      {
+        id: 39,
+        texto: "¿Cómo se le llama al hecho de que, en caso de que el convenio tenga mejores condiciones que el estatuto, te atengas a estas?",
+        opciones: [
+          "In dubio pro operario",
+          "Principio de norma mínima",
+          "Relación laboral especial",
+          "Principio de condición más beneficiosa"
+        ],
+        correcta: 3
+      }
+    ];
+
+    let indice = 0;
+    let aciertos = 0;
+
+    const totalCorregibles = preguntas.filter(p => p.correcta !== null && p.correcta !== undefined).length;
+    const sinClave = preguntas.length - totalCorregibles;
+
+    const elPregunta = document.getElementById("pregunta");
+    const elOpciones = document.getElementById("opciones");
+    const elResultado = document.getElementById("resultado");
+    const elProgreso = document.getElementById("progreso");
+    const elReiniciar = document.getElementById("reiniciar");
+    const elNota = document.getElementById("nota");
+
+    function mostrarPregunta() {
+      elResultado.textContent = "";
+      elOpciones.innerHTML = "";
+
+      if (indice >= preguntas.length) {
+        terminar();
+        return;
+      }
+
+      const p = preguntas[indice];
+      elProgreso.textContent = `Pregunta ${indice + 1} / ${preguntas.length}`;
+      elPregunta.textContent = p.texto;
+
+      p.opciones.forEach((op, i) => {
+        const btn = document.createElement("button");
+        btn.className = "respuesta";
+        btn.textContent = op;
+        btn.addEventListener("click", () => responder(i));
+        elOpciones.appendChild(btn);
+      });
+
+      if (p.correcta === null || p.correcta === undefined) {
+        elNota.textContent = "Esta pregunta no cuenta para la nota (enunciado incompleto o múltiples respuestas).";
+      } else {
+        elNota.textContent = "";
+      }
+    }
+
+    function responder(opcionElegida) {
+      const p = preguntas[indice];
+
+      if (p.correcta === null || p.correcta === undefined) {
+        elResultado.textContent = "Respuesta registrada.";
+      } else {
+        const esCorrecta = Array.isArray(p.correcta)
+          ? p.correcta.includes(opcionElegida)
+          : opcionElegida === p.correcta;
+
+        if (esCorrecta) {
+          aciertos++;
+          elResultado.textContent = "Correcto.";
+        } else {
+          elResultado.textContent = "Incorrecto.";
+        }
+      }
+
+      indice++;
+      setTimeout(mostrarPregunta, 450);
+    }
+
+    function terminar() {
+      elPregunta.textContent = "Juego terminado";
+      elProgreso.textContent = "";
+      elOpciones.innerHTML = "";
+
+      elResultado.textContent =
+        `Has acertado ${aciertos} de ${totalCorregibles} preguntas corregibles` +
+        (sinClave > 0 ? ` (${sinClave} no cuentan para la nota).` : ".");
+
+      elReiniciar.style.display = "inline-block";
+      elNota.textContent = "";
+    }
+
+    elReiniciar.addEventListener("click", () => {
+      indice = 0;
+      aciertos = 0;
+      elReiniciar.style.display = "none";
+      mostrarPregunta();
+    });
+
+    mostrarPregunta();
+  </script>
+</body>
+</html>
