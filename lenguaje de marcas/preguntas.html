@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Atrapa un Millón</title>
   <style>
+        /* Estilos generales de la página */
     body {
       font-family: Arial, sans-serif;
       background: #0b1c2d;
@@ -76,15 +77,19 @@
   </style>
 </head>
 <body>
+  <!-- Botón para volver a index.html -->
   <button id="homeBtn" onclick="location.href='index.html'">Volver</button>
   <div class="panel">
     <h1>Atrapa un Millón</h1>
+    <!-- Aquí se imprime el progreso: "Pregunta X / Y" -->
     <div id="progreso"></div>
-
+  <!-- Aquí se imprime el texto de la pregunta -->
     <h2 id="pregunta"></h2>
+    <!-- Aquí se generan dinámicamente los botones con las opciones -->
     <div id="opciones"></div>
-
+    <!-- Mensaje tras responder -->
     <p id="resultado"></p>
+    <!-- Botón para reiniciar el juego (se muestra al terminar) -->
     <button id="reiniciar">Reiniciar</button>
 
     <p class="nota" id="nota"></p>
@@ -468,29 +473,32 @@
         correcta: 3
       }
     ];
-
+    // Índice de la pregunta actual en el array "preguntas"
     let indice = 0;
+    // Contador de respuestas correctas (solo de preguntas corregibles)
     let aciertos = 0;
-
+    // Calcula cuántas preguntas cuentan (correcta != null/undefined)
     const totalCorregibles = preguntas.filter(p => p.correcta !== null && p.correcta !== undefined).length;
+    // Preguntas que NO cuentan para nota (sin clave / multi-respuesta)
     const sinClave = preguntas.length - totalCorregibles;
-
+    // Referencias a elementos del DOM (así no hacemos getElementById todo el rato)
     const elPregunta = document.getElementById("pregunta");
     const elOpciones = document.getElementById("opciones");
     const elResultado = document.getElementById("resultado");
     const elProgreso = document.getElementById("progreso");
     const elReiniciar = document.getElementById("reiniciar");
     const elNota = document.getElementById("nota");
-
+// Pinta la pregunta actual y crea los botones de respuesta dinámicamente
     function mostrarPregunta() {
+      // Limpia mensajes y botones anteriores
       elResultado.textContent = "";
       elOpciones.innerHTML = "";
-
+      // Si ya no quedan preguntas, se termina el juego
       if (indice >= preguntas.length) {
         terminar();
         return;
       }
-
+      // Coge la pregunta actual
       const p = preguntas[indice];
       elProgreso.textContent = `Pregunta ${indice + 1} / ${preguntas.length}`;
       elPregunta.textContent = p.texto;
@@ -502,19 +510,21 @@
         btn.addEventListener("click", () => responder(i));
         elOpciones.appendChild(btn);
       });
-
+      // Crea un botón por cada opción y le asigna un listener de click
       if (p.correcta === null || p.correcta === undefined) {
         elNota.textContent = "Esta pregunta no cuenta para la nota (enunciado incompleto o múltiples respuestas).";
       } else {
         elNota.textContent = "";
       }
     }
-
+    // Gestiona la respuesta del usuario y decide si suma puntos o no
     function responder(opcionElegida) {
       const p = preguntas[indice];
-
+       // Si no hay respuesta correcta definida, solo registra y no suma/ resta
       if (p.correcta === null || p.correcta === undefined) {
         elResultado.textContent = "Respuesta registrada.";
+       // - Si correcta fuera un array (multi-respuesta), comprueba includes
+       // - Si es un número, compara directamente
       } else {
         const esCorrecta = Array.isArray(p.correcta)
           ? p.correcta.includes(opcionElegida)
@@ -527,31 +537,31 @@
           elResultado.textContent = "Incorrecto.";
         }
       }
-
+      // Pasa a la siguiente pregunta
       indice++;
       setTimeout(mostrarPregunta, 450);
     }
-
+    // Muestra pantalla final y activa el botón reiniciar
     function terminar() {
       elPregunta.textContent = "Juego terminado";
       elProgreso.textContent = "";
       elOpciones.innerHTML = "";
-
+      // Mensaje final con aciertos y total corregible
       elResultado.textContent =
         `Has acertado ${aciertos} de ${totalCorregibles} preguntas corregibles` +
         (sinClave > 0 ? ` (${sinClave} no cuentan para la nota).` : ".");
-
+      // Muestra el botón de reinicio
       elReiniciar.style.display = "inline-block";
       elNota.textContent = "";
     }
-
+    // Listener del botón reiniciar: resetea variables y vuelve a empezar
     elReiniciar.addEventListener("click", () => {
       indice = 0;
       aciertos = 0;
       elReiniciar.style.display = "none";
       mostrarPregunta();
     });
-
+    // Arranca el juego mostrando la primera pregunta
     mostrarPregunta();
   </script>
 </body>
