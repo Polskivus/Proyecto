@@ -2,9 +2,23 @@
 #Para hacer, ver la manera de hacer todo con el pandas, y solo cuando le des a salir, que coja todo la info y actualize el SQL (HECHO👌)
 import sqlite3
 import pandas as pd
+import sys
+import os
 
-DB_PATH = "Datos/baseDatosFabrica.db"
-CSV_PATH = "Datos/piezas.csv"
+def resource_path(relative_path):
+    """
+    Devuelve la ruta absoluta al recurso, funcionando también cuando se empaqueta con PyInstaller.
+    """
+    try:
+        # Carpeta temporal creada por PyInstaller
+        base_path = sys._MEIPASS
+    except Exception:
+        # Cuando ejecutamos en Python normal
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+DB_PATH = resource_path("Datos/baseDatosFabrica.db")
+CSV_PATH = resource_path("Datos/piezas.csv")
 
 #Funciona para conectarse a la base de datos
 def conectar_db():

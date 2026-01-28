@@ -1,9 +1,23 @@
 # empleados.py
 import pandas as pd
 from piezasdb import conectar_db
+import sys
+import os
 
-RUTA_FICHERO = "Datos/empleados.csv"
-DB_PATH = "Datos/baseDatosFabrica.db"
+def resource_path(relative_path):
+    """
+    Devuelve la ruta absoluta al recurso, funcionando también cuando se empaqueta con PyInstaller.
+    """
+    try:
+        # Carpeta temporal creada por PyInstaller
+        base_path = sys._MEIPASS
+    except Exception:
+        # Cuando ejecutamos en Python normal
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+DB_PATH = resource_path("Datos/baseDatosFabrica.db")
+RUTA_FICHERO = resource_path("Datos/empleados.csv")
 
 
 def cargar_empleados():

@@ -58,7 +58,7 @@ def menu():
                 
 
             case "5":
-                print("Módulo trabajadores (pendiente)")
+                print("Módulo trabajadores")
 
                 while True:
                     print("\n===== GESTIÓN DE EMPLEADOS =====")
