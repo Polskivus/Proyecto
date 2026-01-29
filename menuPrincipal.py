@@ -20,6 +20,11 @@ from empleadosdb import(
 def menu():
 
     while True:
+        print("  ______")
+        print(" /|_||_\`.__")
+        print("(   _    _ _\ ")
+        print("=`-(_)--(_)-'")
+
         print("\n******** MENU PRINCIPAL ********")
         print("1. Ver piezas")
         print("2. Añadir pieza")
@@ -61,6 +66,14 @@ def menu():
                 print("Módulo trabajadores")
 
                 while True:
+
+                    print(str(" ///-\\\ "))
+                    print(" |^   ^| ")
+                    print(" |O   O| ")
+                    print(" |  ~  | ")
+                    print("  \ O / ")
+                    print("   | | ")
+
                     print("\n===== GESTIÓN DE EMPLEADOS =====")
                     print("1. Listar empleados")
                     print("2. Ver empleado por DNI")
