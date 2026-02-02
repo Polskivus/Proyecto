@@ -1,3 +1,4 @@
+
 README — Proyecto DAM (Programación + Lenguaje de Marcas).
 
 Este proyecto de 1º DAM tiene dos partes: una parte de programación en Python para gestionar piezas y empleados usando ficheros CSV y una base de datos SQLite, y una parte de Lenguaje de Marcas con varias páginas web hechas con HTML, CSS y JavaScript, incluyendo elementos interactivos.

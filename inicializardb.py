@@ -1,3 +1,4 @@
+# PARTE FILIP
 #Este programa se utiliza para inicializar la base de datos, la idea es solo ejecutarlo una vez cuando la base de datos este disponible
 import sqlite3
 

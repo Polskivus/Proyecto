@@ -1,3 +1,4 @@
+# PARTE AIMAR
 # empleados.py ESTA ES LA VERSION PREELIMINAR NO ES LA FINAL
 RUTA_FICHERO = "empleados.txt"
 import pandas as pd

@@ -1,3 +1,4 @@
+# PARTE AIMAR 
 # empleados.py
 import pandas as pd
 from piezasdb import conectar_db

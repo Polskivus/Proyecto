@@ -1,3 +1,4 @@
+# PARTE FILIP
 import sqlite3
 
 conn = sqlite3.connect('Datos/piezas.db')
